@@ -1,0 +1,232 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Bhomepage = () => {
+  return (
+    <div className="bg-light" style={{ overflowX: "hidden" }}>
+      {/* Navbar */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+        <div className="container">
+          <Link className="navbar-brand text-primary fw-bold" to="/">
+          🔗 Tinyties
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/view-influencer">
+                  View Influencer
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/hire-influencer">
+                  Hire Influencer
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/fill-requirement">
+                  Fill Requirement
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div
+        className="d-flex align-items-center min-vh-100"
+        style={{
+          background: "linear-gradient(135deg, #eaf3fc, #fdeef1)",
+          color: "#333",
+        }}
+      >
+        <div className="container text-center text-md-start">
+          <div className="row align-items-center">
+            <div className="col-md-6">
+              <h1 className="display-4 fw-bold">
+                Build Genuine <span className="text-primary">Connections</span>!
+              </h1>
+              <p className="lead">
+                Join thousands who trust us to create meaningful Collabs.
+              </p>
+              <div className="d-flex gap-3 justify-content-center justify-content-md-start">
+                <Link
+                  to="/register"
+                  className="btn btn-primary btn-lg rounded-pill shadow-lg"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  to="/login"
+                  className="btn btn-outline-secondary btn-lg rounded-pill shadow-lg"
+                >
+                  Log In
+                </Link>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <img
+                src="/pic/94361668-2206-429c-89ca-4c6916d313ef.webp" // Replace with your image
+                alt="Happy couple"
+                className="img-fluid rounded"
+                style={{
+                  boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
+                  backgroundColor: "#fff",
+                  padding: "10px",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div
+        className="container-fluid py-5"
+        style={{
+          background: "#f9fafb",
+        }}
+      >
+        <div className="container">
+          <h2 className="text-center text-dark mb-5 fw-bold">Why Tinyties?</h2>
+          <div className="row g-4">
+            <div className="col-md-4">
+              <div
+                className="card h-100 shadow-sm border-0"
+                style={{
+                  background: "#e8f0fe",
+                  color: "#333",
+                }}
+              >
+                <div className="card-body text-center">
+                  <i className="bi bi-shield-check fs-1 mb-3 text-primary"></i>
+                  <h5 className="card-title fw-bold">Safety & Privacy</h5>
+                  <p className="card-text">
+                    Your personal information stays secure with us.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div
+                className="card h-100 shadow-sm border-0"
+                style={{
+                  background: "#fff0f1",
+                  color: "#333",
+                }}
+              >
+                <div className="card-body text-center">
+                  <i className="bi bi-heart fs-1 mb-3 text-danger"></i>
+                  <h5 className="card-title fw-bold">Personalized Matches</h5>
+                  <p className="card-text">
+                    Meet your ideal match based on unique preferences.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div
+                className="card h-100 shadow-sm border-0"
+                style={{
+                  background: "#f2f9e9",
+                  color: "#333",
+                }}
+              >
+                <div className="card-body text-center">
+                  <i className="bi bi-people fs-1 mb-3 text-success"></i>
+                  <h5 className="card-title fw-bold">Supportive Community</h5>
+                  <p className="card-text">
+                    Engage with like-minded individuals in a trusted space.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Call to Action Section */}
+      <div
+        className="py-5"
+        style={{
+          background: "linear-gradient(to bottom, #eef7fd, #fef1f3)",
+          color: "#333",
+          textAlign: "center",
+        }}
+      >
+        <h3 className="display-6 fw-bold mb-3">Ready to Start Your Journey?</h3>
+        <p className="lead mb-4">
+          Join the platform trusted by thousands to create meaningful
+          relationships.
+        </p>
+        <Link
+          to="/register"
+          className="btn btn-primary btn-lg px-5 rounded-pill shadow-lg"
+        >
+          Sign Up Now
+        </Link>
+      </div>
+
+      {/* Footer */}
+      <footer
+        className="py-4"
+        style={{
+          backgroundColor: "#333",
+          color: "#fff",
+          textAlign: "center",
+        }}
+      >
+        <div className="container">
+          <p className="mb-2">&copy; 2025 Tinyties | All Rights Reserved</p>
+          <ul className="list-inline">
+            <li className="list-inline-item">
+              <Link to="/privacy" className="text-decoration-none text-light">
+                Privacy Policy
+              </Link>
+            </li>
+            <li className="list-inline-item">|</li>
+            <li className="list-inline-item">
+              <Link to="/terms" className="text-decoration-none text-light">
+                Terms of Service
+              </Link>
+            </li>
+            <li className="list-inline-item">|</li>
+            <li className="list-inline-item">
+              <Link to="/contact" className="text-decoration-none text-light">
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Bhomepage;
+CREATE TABLE creators (
+    id SERIAL PRIMARY KEY,                -- Auto-incrementing primary key
+    name VARCHAR(100) NOT NULL,           -- Creator's full name
+    address TEXT NOT NULL,                -- Address
+    social_media VARCHAR(255) NOT NULL,   -- Social media handle
+    audience_category VARCHAR(50) NOT NULL, -- Category (Lifestyle, Tech, etc.)
+    content_type VARCHAR(100) NOT NULL,   -- Type of content (Videos, Blogs, etc.)
+    analytics_photo1 BYTEA NOT NULL,      -- First analytics image stored as binary
+    analytics_photo2 BYTEA NOT NULL,      -- Second analytics image stored as binary
+    email VARCHAR(100) NOT NULL UNIQUE,   -- Email (must be unique)
+    phone VARCHAR(20) NOT NULL,           -- Phone number
+    created_at TIMESTAMP DEFAULT NOW()    -- Timestamp of record creation
+);
