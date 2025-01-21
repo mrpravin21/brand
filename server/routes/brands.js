@@ -11,6 +11,24 @@ dotenv.config();
 
 const JWT_SECRET = process.env.SESSION_SECRET;
 
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Authorization token missing or invalid." });
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.brandId = decoded.id;
+    next();
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(403).json({ message: "Invalid or expired token." });
+  }
+};
+
 // Middleware to check if the email exists
 async function checkEmailExists(email) {
   try {

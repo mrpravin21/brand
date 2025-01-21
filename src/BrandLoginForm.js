@@ -39,27 +39,27 @@ const BrandLoginForm = () => {
       <div className="container">
         <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
           <div className="col-md-3 mb-2 mb-md-0">
-            <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+            <Link to="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
               <img src={blueHand} alt="TinyTies" width="40" height="40" />
-            </a>
+            </Link>
           </div>
     
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" className="nav-link px-2">Features</a></li>
+            <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
+            <li><Link to="/" className="nav-link px-2">Features</Link></li>
             <li><a href="#" className="nav-link px-2">Pricing</a></li>
             <li><a href="#" className="nav-link px-2">FAQs</a></li>
             <li><a href="#" className="nav-link px-2">About</a></li>
           </ul>
     
           <div className="col-md-3 text-end">
-            <button type="button" className="btn btn-outline-primary me-2">Log In</button>
-            <button type="button" className="btn btn-primary">Sign Up</button>
+            <Link to="/login/brand"><button type="button" className="btn btn-primary me-2 rounded-pill">Brand</button></Link>
+            <Link to="/login/creator"><button type="button" className="btn btn-primary me-2 rounded-pill">Creator</button></Link>
           </div>
         </header>
       </div>
 
-      <div className="d-flex align-items-center min-vh-100" style={{ background: "linear-gradient(135deg, #eaf3fc, #fdeef1)", color: "#333" }}>
+      <div className="d-flex align-items-center">
         <div className="container text-center text-md-start">
           <div className="row align-items-center">
             <div className="col-md-6">
@@ -127,30 +127,23 @@ const BrandLoginForm = () => {
         </div>
       </div>
 
-      <footer className="py-4" style={{ backgroundColor: "#333", color: "#fff", textAlign: "center" }}>
-        <div className="container">
-          <p className="mb-2">&copy; 2025 Tinyties | All Rights Reserved</p>
-          <ul className="list-inline">
-            <li className="list-inline-item">
-              <Link to="/privacy" className="text-decoration-none text-light">
-                Privacy Policy
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/terms" className="text-decoration-none text-light">
-                Terms of Service
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/contact" className="text-decoration-none text-light">
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </footer>
+      <div className="container">
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+  
+      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src={blueHand} width="40" height="40" />
+      </a>
+  
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+    </footer>
+    </div>
     </div>
   );
 };

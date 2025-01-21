@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import blueHand from "./pic/blue_hand.png";
 
 const BrandDashboard = () => {
   const navigate = useNavigate();
@@ -13,43 +14,29 @@ const BrandDashboard = () => {
   };
 
   return (
-    <div className="bg-light" style={{ minHeight: "100vh", overflowX: "hidden" }}>
+    <div className="bg-light">
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-        <div className="container">
-          <Link className="navbar-brand text-primary fw-bold" to="/">
-            🔗 Tinyties
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <Link className="nav-link text-dark" to="/profile">
-                  Profile
-                </Link>
-              </li>
-              <li className="nav-item">
-                <button
-                  className="btn btn-primary btn-lg rounded-pill shadow-lg"
-                  onClick={handleLogout}
-                >
-                  Log Out
-                </button>
-              </li>
-            </ul>
+      <div className="container">
+        <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <div className="col-md-3 mb-2 mb-md-0">
+            <Link to="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+              <img src={blueHand} alt="TinyTies" width="40" height="40" />
+            </Link>
           </div>
-        </div>
-      </nav>
+    
+          <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
+            <li><Link to="/" className="nav-link px-2">Features</Link></li>
+            <li><a href="#" className="nav-link px-2">Pricing</a></li>
+            <li><a href="#" className="nav-link px-2">FAQs</a></li>
+            <li><a href="#" className="nav-link px-2">About</a></li>
+          </ul>
+    
+          <div className="col-md-3 text-end">
+            <Link to="/login/brand"><button type="button" className="btn btn-primary me-2 rounded-pill" onClick={handleLogout}>Log Out</button></Link>
+          </div>
+        </header>
+      </div>
 
       {/* Hero Section */}
       <div
@@ -136,37 +123,23 @@ const BrandDashboard = () => {
       </div>
 
       {/* Footer */}
-      <footer
-        className="py-4 mt-5"
-        style={{
-          backgroundColor: "#333",
-          color: "#fff",
-          textAlign: "center",
-        }}
-      >
-        <div className="container">
-          <p className="mb-2">&copy; 2025 Tinyties | All Rights Reserved</p>
-          <ul className="list-inline">
-            <li className="list-inline-item">
-              <Link to="/privacy" className="text-decoration-none text-light">
-                Privacy Policy
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/terms" className="text-decoration-none text-light">
-                Terms of Service
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/contact" className="text-decoration-none text-light">
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </footer>
+      <div className="container">
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+  
+      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src={blueHand} width="40" height="40" />
+      </a>
+  
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+    </footer>
+    </div>
     </div>
   );
 };

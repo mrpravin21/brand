@@ -6,7 +6,13 @@ const Bhomepage = () => {
   const callToActionRef = useRef(null);
 
   const scrollToAction = () => {
-    callToActionRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (callToActionRef.current) {
+      const targetOffset = callToActionRef.current.offsetTop - 50;
+      window.scrollTo({
+        top: targetOffset,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
@@ -15,27 +21,28 @@ const Bhomepage = () => {
       <div className="container">
         <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
           <div className="col-md-3 mb-2 mb-md-0">
-            <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+            <Link to="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
               <img src={blueHand} alt="TinyTies" width="40" height="40" />
-            </a>
+            </Link>
           </div>
     
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" className="nav-link px-2">Features</a></li>
+            <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
+            <li><Link to="#Features" onClick={scrollToAction} className="nav-link px-2">Features</Link></li>
             <li><a href="#" className="nav-link px-2">Pricing</a></li>
             <li><a href="#" className="nav-link px-2">FAQs</a></li>
             <li><a href="#" className="nav-link px-2">About</a></li>
           </ul>
     
           <div className="col-md-3 text-end">
-            <button type="button" className="btn btn-outline-primary me-2">Log In</button>
-            <button type="button" className="btn btn-primary">Sign Up</button>
+            <Link to="/login/brand"><button type="button" className="btn btn-primary me-2 rounded-pill">Brand</button></Link>
+            <Link to="/login/creator"><button type="button" className="btn btn-primary me-2 rounded-pill">Creator</button></Link>
           </div>
         </header>
       </div>
 
       {/* Hero Section */}
+      <div className="border-bottom">
       <div
         className="d-flex align-items-center mt-5 mb-5"
       >
@@ -48,17 +55,17 @@ const Bhomepage = () => {
                 Join thousands who trust us to create meaningful Collabs.
               </p>
               <div className="d-flex gap-3 justify-content-center justify-content-md-start">
+                <Link to="register/brand">
                 <button
-                  onClick={scrollToAction}
-                  className="btn btn-primary btn-lg rounded-pill shadow-lg"
+                  className="btn btn-outline-primary btn-lg rounded-pill shadow-lg"
                 >
-                  Get Started
+                  Get Started as Brand
                 </button>
-                <Link
-                  to="/login"
-                  className="btn btn-outline-secondary btn-lg rounded-pill shadow-lg"
-                >
-                  Log In
+                </Link>
+                <Link to="/register/creator">
+                  <button className="btn btn-outline-primary btn-lg rounded-pill shadow-lg">
+                  Get Started as Creator
+                  </button>
                 </Link>
               </div>
             </div>
@@ -70,10 +77,15 @@ const Bhomepage = () => {
               />
             </div>
           </div>
+          
         </div>
+      </div>
+      
       </div>
 
       {/* Features Section */}
+      <section ref={callToActionRef} id="Features">
+      <div className="border-bottom">
       <div
         className="container-fluid py-5"
         style={{
@@ -139,17 +151,20 @@ const Bhomepage = () => {
           </div>
         </div>
       </div>
+      </div>
+      </section>
 
       {/* Call to Action Section */}
       <div
         ref={callToActionRef}
-        className="py-5"
+        className="py-5 mt-5"
         style={{
           textAlign: "center"
         }}
+        
       >
-        <h3 className="display-6 fw-bold mb-3">Ready to Start Your Journey?</h3>
-        <p className="lead mb-4">
+        <h3 className="display-6 fw-bold mb-5">Ready to Start Your Journey?</h3>
+        <p className="lead mb-5">
           Join the platform trusted by thousands to create meaningful
           relationships.
         </p>
@@ -169,7 +184,7 @@ const Bhomepage = () => {
       </div>
 
       {/* Footer */}
-      <div className="container">
+      <div className="container mt-5">
     <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
       <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
   
