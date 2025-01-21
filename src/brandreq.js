@@ -4,7 +4,7 @@ import { styled } from '@mui/system';
 
 const FormWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: '600px',
+  maxWidth: '800px', // Adjust width for better responsiveness
   margin: '0 auto',
   padding: '40px',
   backgroundColor: '#ffffff',
@@ -35,6 +35,7 @@ const Brandreq = () => {
   const [campaignGoal, setCampaignGoal] = useState('');
   const [budget, setBudget] = useState('');
   const [platformPreference, setPlatformPreference] = useState('');
+  const [additionalDetails, setAdditionalDetails] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
@@ -48,10 +49,10 @@ const Brandreq = () => {
       campaignGoal,
       budget,
       platformPreference,
+      additionalDetails,
     };
 
     console.log('Form Data Submitted:', formData);
-
     setMessage('Requirement submitted successfully!');
   };
 
@@ -59,15 +60,16 @@ const Brandreq = () => {
     <Container sx={{ maxWidth: '100%', padding: '2rem 0', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: 'linear-gradient(135deg, #eaf3fc, #fdeef1)' }}>
       <FormWrapper>
         <Typography variant="h4" align="center" sx={{ color: '#1976D2', marginBottom: 3 }}>
-          Fill Requirement Page
+          Brand Campaign Requirement
         </Typography>
-        <Typography variant="body1" align="center" sx={{ marginBottom: 4 }}>
-          Here you can fill your brand's influencer requirements.
+        <Typography variant="body1" align="center" sx={{ marginBottom: 4, color: '#555' }}>
+          Fill out the information to connect with the right influencers for your campaign.
         </Typography>
 
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            {/* Brand Name */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Brand Name"
@@ -78,7 +80,8 @@ const Brandreq = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* Business Type */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Type of Business"
@@ -89,10 +92,11 @@ const Brandreq = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* Target Customer */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Targeted Customer"
+                label="Target Customer"
                 variant="outlined"
                 value={targetCustomer}
                 onChange={(e) => setTargetCustomer(e.target.value)}
@@ -100,7 +104,8 @@ const Brandreq = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* Customer Range */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Range of Customers"
@@ -111,6 +116,7 @@ const Brandreq = () => {
               />
             </Grid>
 
+            {/* Campaign Goal */}
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -124,7 +130,8 @@ const Brandreq = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* Budget */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Budget for Campaign"
@@ -136,7 +143,8 @@ const Brandreq = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* Preferred Social Media Platform */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Preferred Social Media Platform(s)"
@@ -147,9 +155,23 @@ const Brandreq = () => {
               />
             </Grid>
 
+            {/* Additional Details */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Additional Campaign Details"
+                variant="outlined"
+                multiline
+                rows={6}
+                value={additionalDetails}
+                onChange={(e) => setAdditionalDetails(e.target.value)}
+                required
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <SubmitButton variant="contained" type="submit">
-                Submit Requirement
+                Submit Campaign Requirement
               </SubmitButton>
             </Grid>
           </Grid>
@@ -163,8 +185,19 @@ const Brandreq = () => {
           </Box>
         )}
       </FormWrapper>
+
+      {/* Filler Content for Screen Balance */}
+      <Box sx={{ padding: '50px', textAlign: 'center', backgroundColor: '#f7f7f7', borderRadius: '15px', marginTop: '30px' }}>
+        <Typography variant="h6" sx={{ color: '#1976D2', fontWeight: 'bold' }}>
+          Connect with the Right Influencers for Your Campaign
+        </Typography>
+        <Typography variant="body1" sx={{ marginTop: '20px', color: '#555' }}>
+          By filling out the form above, you're taking the first step toward collaborating with the right influencers to make your campaign a success.
+        </Typography>
+      </Box>
     </Container>
   );
-}
+};
 
 export default Brandreq;
+

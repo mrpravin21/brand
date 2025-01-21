@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import blueHand from "./pic/blue_hand.png";
 
 const Bhomepage = () => {
   const callToActionRef = useRef(null);
@@ -11,58 +12,38 @@ const Bhomepage = () => {
   return (
     <div className="bg-light" style={{ overflowX: "hidden" }}>
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-        <div className="container">
-          <Link className="navbar-brand text-primary fw-bold" to="/">
-            🔗 Tinyties
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <Link className="nav-link text-dark" to="/about-us">
-                  About Us
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-dark" to="/our-services">
-                  Our Services
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-dark" to="/stories">
-                  Stories
-                </Link>
-              </li>
-            </ul>
+      <div className="container">
+        <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <div className="col-md-3 mb-2 mb-md-0">
+            <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+              <img src={blueHand} alt="TinyTies" width="40" height="40" />
+            </a>
           </div>
-        </div>
-      </nav>
+    
+          <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="#" className="nav-link px-2">Features</a></li>
+            <li><a href="#" className="nav-link px-2">Pricing</a></li>
+            <li><a href="#" className="nav-link px-2">FAQs</a></li>
+            <li><a href="#" className="nav-link px-2">About</a></li>
+          </ul>
+    
+          <div className="col-md-3 text-end">
+            <button type="button" className="btn btn-outline-primary me-2">Log In</button>
+            <button type="button" className="btn btn-primary">Sign Up</button>
+          </div>
+        </header>
+      </div>
 
       {/* Hero Section */}
       <div
-        className="d-flex align-items-center min-vh-100"
-        style={{
-          background: "linear-gradient(135deg, #eaf3fc, #fdeef1)",
-          color: "#333",
-        }}
+        className="d-flex align-items-center mt-5 mb-5"
       >
         <div className="container text-center text-md-start">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <h1 className="display-4 fw-bold">
-                Build Genuine <span className="text-primary">Connections</span>!
-              </h1>
+              <h1 className="display-4 fw-bold"><span className="text-primary">TinyTies</span></h1>
+              <h2 className="display-6 fw-bold">Builds Genuine Connections!</h2>
               <p className="lead">
                 Join thousands who trust us to create meaningful Collabs.
               </p>
@@ -83,14 +64,9 @@ const Bhomepage = () => {
             </div>
             <div className="col-md-6">
               <img
-                src="/pic/94361668-2206-429c-89ca-4c6916d313ef.webp"
+                src="https://gatton.uky.edu/sites/default/files/iStock-networkWEB.png"
                 alt="Happy couple"
                 className="img-fluid rounded"
-                style={{
-                  boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
-                  backgroundColor: "#fff",
-                  padding: "10px",
-                }}
               />
             </div>
           </div>
@@ -104,9 +80,9 @@ const Bhomepage = () => {
           background: "#f9fafb",
         }}
       >
-        <div className="container">
-          <h2 className="text-center text-dark mb-5 fw-bold">Why Tinyties?</h2>
-          <div className="row g-4">
+        <div className="container mt-5 mb-5">
+          <h2 className="text-center text-dark mb-5 fw-bold"><span className="text-primary-emphasis">Why TinyTies?</span></h2>
+          <div className="row g-5 px-3">
             <div className="col-md-4">
               <div
                 className="card h-100 shadow-sm border-0"
@@ -145,7 +121,7 @@ const Bhomepage = () => {
 
             <div className="col-md-4">
               <div
-                className="card h-100 shadow-sm border-0"
+                className="card h-100 shadow-sm border-0 mb-5"
                 style={{
                   background: "#f2f9e9",
                   color: "#333",
@@ -169,9 +145,7 @@ const Bhomepage = () => {
         ref={callToActionRef}
         className="py-5"
         style={{
-          background: "linear-gradient(to bottom, #eef7fd, #fef1f3)",
-          color: "#333",
-          textAlign: "center",
+          textAlign: "center"
         }}
       >
         <h3 className="display-6 fw-bold mb-3">Ready to Start Your Journey?</h3>
@@ -180,52 +154,38 @@ const Bhomepage = () => {
           relationships.
         </p>
         <Link
-          to="/register/brand"
-          className="btn btn-primary btn-lg px-5 rounded-pill shadow-lg"
-        >
+          to="/register/brand" className="btn btn-lg rounded-pill"
+        ><button className="btn btn-outline-primary btn-lg px-5 rounded-pill shadow-lg">
           Brand
-        </Link>
+          </button></Link>
         <Link
           to="/register/creator"
-          className="btn btn-lg px-5 rounded-pill shadow-lg"
-          style={{ backgroundColor: "#FF5733", color: "#fff" }}
+          className="btn btn-lg rounded-pill"
         >
-          Are You Creator
-        </Link>
+          <button className="btn btn-outline-primary btn-lg px-5 rounded-pill shadow-lg">
+          Creator
+        </button></Link>
+
       </div>
 
       {/* Footer */}
-      <footer
-        className="py-4"
-        style={{
-          backgroundColor: "#333",
-          color: "#fff",
-          textAlign: "center",
-        }}
-      >
-        <div className="container">
-          <p className="mb-2">&copy; 2025 Tinyties | All Rights Reserved</p>
-          <ul className="list-inline">
-            <li className="list-inline-item">
-              <Link to="/privacy" className="text-decoration-none text-light">
-                Privacy Policy
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/terms" className="text-decoration-none text-light">
-                Terms of Service
-              </Link>
-            </li>
-            <li className="list-inline-item">|</li>
-            <li className="list-inline-item">
-              <Link to="/contact" className="text-decoration-none text-light">
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </footer>
+      <div className="container">
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+  
+      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src={blueHand} width="40" height="40" />
+      </a>
+  
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+    </footer>
+    </div>
     </div>
   );
 };

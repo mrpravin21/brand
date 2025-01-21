@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const LoginForm = () => {
+const CreatorLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Create the formData object to log
-    const formData = { email, password };
-    console.log('Form Data:', formData); // Logging the form data for debugging
-
-    // Remove backend fetch call, just logging formData
-    alert("Form submitted! Check the console for form data.");
-
-    // Optionally, you can navigate to a different page without actual login
-    // navigate('/dashboard'); // Uncomment this if you want to navigate to the dashboard after "logging in"
+    setError(""); // Clear any previous error messages
+  
+    try {
+      const response = await axios.post("/api/creators/login/creator", { email, password });
+      const { user, token } = response.data;
+  
+      // Store user details in localStorage or context
+      localStorage.setItem("userSession", JSON.stringify({...user, token, role: "creator"}));
+  
+      alert(`Welcome back, ${user.creatorName}!`);
+      navigate("/hello"); // Redirect to the creator dashboard
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "An error occurred. Please try again.");
+    }
   };
+  
 
   return (
     <div className="bg-light" style={{ overflowX: "hidden" }}>
-      {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
         <div className="container">
           <Link className="navbar-brand text-primary fw-bold" to="/">
@@ -33,14 +40,7 @@ const LoginForm = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div
-        className="d-flex align-items-center min-vh-100"
-        style={{
-          background: "linear-gradient(135deg, #eaf3fc, #fdeef1)",
-          color: "#333",
-        }}
-      >
+      <div className="d-flex align-items-center min-vh-100" style={{ background: "linear-gradient(135deg, #eaf3fc, #fdeef1)", color: "#333" }}>
         <div className="container text-center text-md-start">
           <div className="row align-items-center">
             <div className="col-md-6">
@@ -50,18 +50,10 @@ const LoginForm = () => {
               <p className="lead">Sign in to start your journey.</p>
             </div>
 
-            {/* Login Form Box on the Right */}
             <div className="col-md-6">
-              <div
-                className="card shadow-lg border-0"
-                style={{
-                  backgroundColor: "#ffffff",
-                  padding: "60px",
-                  borderRadius: "25px",  // Rounded corners
-                  boxShadow: "0 10px 20px rgba(242, 216, 216, 0.1)", // Shadow effect
-                }}
-              >
+              <div className="card shadow-lg border-0" style={{ backgroundColor: "#ffffff", padding: "60px", borderRadius: "25px" }}>
                 <h3 className="text-center text-primary mb-4">Login</h3>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label">
@@ -77,7 +69,6 @@ const LoginForm = () => {
                       required
                     />
                   </div>
-
                   <div className="mb-3">
                     <label htmlFor="password" className="form-label">
                       Password
@@ -92,16 +83,8 @@ const LoginForm = () => {
                       required
                     />
                   </div>
-
                   <div className="d-flex justify-content-between align-items-center">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-lg rounded-pill shadow-lg"
-                      style={{
-                        background: "#1976D2", // Trustworthy Blue
-                        color: "#fff",
-                      }}
-                    >
+                    <button type="submit" className="btn btn-primary btn-lg rounded-pill shadow-lg">
                       Log In
                     </button>
                     <Link to="/forgot-password" className="text-primary">
@@ -110,7 +93,6 @@ const LoginForm = () => {
                   </div>
                 </form>
 
-                {/* Register Options */}
                 <div className="text-center mt-4">
                   <p>Don't have an account?</p>
                   <Link to="/register/brand" className="btn btn-outline-primary mx-2">
@@ -126,15 +108,7 @@ const LoginForm = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer
-        className="py-4"
-        style={{
-          backgroundColor: "#333",
-          color: "#fff",
-          textAlign: "center",
-        }}
-      >
+      <footer className="py-4" style={{ backgroundColor: "#333", color: "#fff", textAlign: "center" }}>
         <div className="container">
           <p className="mb-2">&copy; 2025 Tinyties | All Rights Reserved</p>
           <ul className="list-inline">
@@ -162,4 +136,5 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default CreatorLoginForm;
+

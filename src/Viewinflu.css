@@ -1,49 +1,80 @@
-.viewinflu-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .viewinflu-title {
-    text-align: center;
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .viewinflu-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .viewinflu-card {
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  .viewinflu-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .viewinflu-details {
-    padding: 15px;
-  }
-  
-  .viewinflu-details h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    color: #333;
-  }
-  
-  .viewinflu-details p {
-    margin: 8px 0;
-    color: #555;
-  }
-  
+/* Overall Container */
+.container {
+  padding: 20px;
+}
+
+/* Grid Layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Card Styles */
+.card {
+  background: linear-gradient(to top right, #eaf3fc, #fdeef1);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Styles */
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 5px solid #fff;
+}
+
+/* Card Body */
+.card-body {
+  padding: 15px;
+  color: #333;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card-category {
+  font-size: 1rem;
+  color: #777;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Button */
+.card-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.card-button:hover {
+  background: #388e3c;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 1.2rem;
+  color: #555;
+}

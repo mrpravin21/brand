@@ -1,71 +1,42 @@
-const express = require("express");
-const cors = require("cors"); // Import CORS package
-const multer = require("multer");
-const { Client } = require("pg");
-const dotenv = require("dotenv");
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const session = require('express-session');
 
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5001;
 
-// Enable CORS for all origins (or restrict it as needed)
-app.use(cors({
-  origin: "http://localhost:3000", // Allow requests only from React (localhost:3000)
-  methods: ["GET", "POST", "PUT", "DELETE"], // Methods to allow
-  allowedHeaders: ["Content-Type", "Authorization"] // Headers to allow
+dotenv.config();
+
+app.use(session({
+  secret: process.env.SESSION_SECRET, // Use a secure secret key
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Use `true` if using HTTPS
 }));
 
-// PostgreSQL Database Connection Details
-const client = new Client({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-});
+app.use(cors());
+app.use(express.json());
 
-client.connect();
+// Serve static files from the 'uploads' folder
+app.use('/uploads', express.static('uploads'));
 
-// Set up Multer for file upload
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// Import routes for brands and creators
+const brandsRoutes = require('./routes/brands');
+const creatorsRoutes = require('./routes/creators');
 
-app.use(express.json()); // Parse JSON requests
+// Use the routes
+app.use('/api/brands', brandsRoutes);
+app.use('/api/creators', creatorsRoutes); // Mounting creators route at /api/creators
 
-// Route for handling the form submission
-app.post("/register-creator", upload.fields([
-  { name: "analyticsPhoto1", maxCount: 1 },
-  { name: "analyticsPhoto2", maxCount: 1 }
-]), async (req, res) => {
-  const { name, address, socialMedia, audienceCategory, contentType, email, phone } = req.body;
-  const analyticsPhoto1 = req.files.analyticsPhoto1 ? req.files.analyticsPhoto1[0].buffer : null;
-  const analyticsPhoto2 = req.files.analyticsPhoto2 ? req.files.analyticsPhoto2[0].buffer : null;
-
-  // SQL Query to insert creator data into the PostgreSQL table
-  const query = `
-    INSERT INTO creators 
-    (name, address, social_media, audience_category, content_type, 
-    analytics_photo1, analytics_photo2, email, phone)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    RETURNING id
-  `;
-  const values = [
-    name, address, socialMedia, audienceCategory, contentType,
-    analyticsPhoto1, analyticsPhoto2, email, phone
-  ];
-
-  try {
-    const result = await client.query(query, values);
-    res.status(200).json({ message: "Creator registered successfully", id: result.rows[0].id });
-  } catch (err) {
-    console.error("Error inserting data into database:", err);
-    res.status(500).json({ message: "Error registering creator" });
-  }
+// Generic error handler (optional but useful)
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: "Internal Server Error" });
 });
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });

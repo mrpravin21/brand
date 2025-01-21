@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
+import CreatorLoginForm from "./CreatorLoginForm";
 
-const CreatorLogin = () => {
-  return (
-    <div>
-      <h2>Creator Login</h2>
-      {/* Custom login form for creator */}
-    </div>
-  );
-};
+function CreatorLogin () {
+    return (
+        <CreatorLoginForm />
+    );
+}
 
 export default CreatorLogin;

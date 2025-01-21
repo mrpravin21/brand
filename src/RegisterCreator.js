@@ -1,71 +1,112 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CreatorRegistration = () => {
+const RegisterCreator = () => {
   const [creatorName, setCreatorName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("");
+  const [contentType, setContentType] = useState("");
   const [socialLinks, setSocialLinks] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [analyticsPhoto1, setAnalyticsPhoto1] = useState(null);
   const [analyticsPhoto2, setAnalyticsPhoto2] = useState(null);
-  const [contentType, setContentType] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  // Real-time validation for email
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
+  // Real-time password validation
+  const validatePassword = (password) => {
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    return passwordPattern.test(password);
+  };
+
+  // Handle real-time validation for all fields
+  const handleFieldChange = (e) => {
+    const { id, value } = e.target;
+    let newErrors = { ...errors };
+
+    switch (id) {
+      case "email":
+        if (!validateEmail(value)) {
+          newErrors.email = "Please enter a valid email address.";
+        } else {
+          delete newErrors.email;
+        }
+        setEmail(value);
+        break;
+      case "password":
+        if (!validatePassword(value)) {
+          newErrors.password = "Password must be at least 8 characters long, with 1 number, 1 uppercase, and 1 lowercase letter.";
+        } else {
+          delete newErrors.password;
+        }
+        setPassword(value);
+        break;
+      case "confirmPassword":
+        if (value !== password) {
+          newErrors.confirmPassword = "Passwords do not match.";
+        } else {
+          delete newErrors.confirmPassword;
+        }
+        setConfirmPassword(value);
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!creatorName || !email || !phone || !category || !socialLinks || !password || !contentType || !analyticsPhoto1 || !analyticsPhoto2) {
-      alert("All fields are required.");
+    // Check for any validation errors before submitting
+    if (Object.keys(errors).length > 0) {
+      alert("Please fix the errors before submitting.");
       return;
     }
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    // Prepare the data to be sent to the backend
+    // Proceed with form submission
     const formData = new FormData();
     formData.append("creatorName", creatorName);
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("category", category);
+    formData.append("contentType", contentType);
     formData.append("socialLinks", socialLinks);
     formData.append("password", password);
-    formData.append("contentType", contentType);
     formData.append("analyticsPhoto1", analyticsPhoto1);
     formData.append("analyticsPhoto2", analyticsPhoto2);
 
-    // TODO: Implement backend API call to register creator
-    // Use the following code template for the API call:
-    /*
-    fetch("/api/register/creator", {
+    fetch("http://localhost:5001/api/creators/register", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to register");
+          throw new Error("Server error");
         }
         return response.json();
       })
       .then((data) => {
-        if (data.success) {
-          alert("Registration successful!");
-          navigate("/login");
+        if (data.message) {
+          alert(data.message);
+          navigate("/login/creator");
         } else {
-          alert("Registration failed: " + data.message);
+          alert("Registration failed.");
         }
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("An error occurred while registering. Please try again.");
+        alert("An error occurred while registering.");
       });
-    */
   };
 
   return (
@@ -96,58 +137,143 @@ const CreatorRegistration = () => {
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="creatorName" className="form-label">Creator Name</label>
-                        <input type="text" className="form-control" id="creatorName" placeholder="Enter your name" value={creatorName} onChange={(e) => setCreatorName(e.target.value)} required />
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="creatorName"
+                          placeholder="Enter your name"
+                          value={creatorName}
+                          onChange={(e) => setCreatorName(e.target.value)}
+                          required
+                        />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="socialLinks" className="form-label">Social Media Links</label>
-                        <input type="text" className="form-control" id="socialLinks" placeholder="Enter your social media links" value={socialLinks} onChange={(e) => setSocialLinks(e.target.value)} required />
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="socialLinks"
+                          placeholder="Enter your social media links"
+                          value={socialLinks}
+                          onChange={(e) => setSocialLinks(e.target.value)}
+                          required
+                        />
                       </div>
-                      <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">Phone Number</label>
-                        <input type="tel" className="form-control" id="phone" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-                      </div>
+                      
                       <div className="mb-3">
                         <label htmlFor="category" className="form-label">Creator Category</label>
-                        <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
+                        <select
+                          className="form-select"
+                          id="category"
+                          value={category}
+                          onChange={(e) => setCategory(e.target.value)}
+                          required
+                        >
                           <option value="">Select Category</option>
+                          <option value="Comedy">Comedy</option>
+                          <option value="Riding">Riding</option>
+                          <option value="Food Vlog">Food Vlog</option>
                           <option value="Lifestyle">Lifestyle</option>
                           <option value="Tech">Tech</option>
-                          <option value="Food">Food</option>
-                          <option value="Travel">Travel</option>
+                          <option value="Gaming">Gaming</option>
+                          <option value="Beauty">Beauty</option>
                           <option value="Fitness">Fitness</option>
+                          <option value="Travel">Travel</option>
                         </select>
                       </div>
                       <div className="mb-3">
                         <label htmlFor="contentType" className="form-label">Content Type</label>
-                        <input type="text" className="form-control" id="contentType" placeholder="e.g., Videos, Blogs, Reels" value={contentType} onChange={(e) => setContentType(e.target.value)} required />
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="contentType"
+                          placeholder="e.g., Videos, Blogs, Reels"
+                          value={contentType}
+                          onChange={(e) => setContentType(e.target.value)}
+                        />
                       </div>
                     </div>
 
                     <div className="col-md-6">
+                   
                       <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email Address</label>
-                        <input type="email" className="form-control" id="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          onChange={handleFieldChange}
+                          required
+                        />
+                        {errors.email && <div className="text-danger">{errors.email}</div>}
                       </div>
+                      <div className="mb-3">
+                        <label htmlFor="phone" className="form-label">Phone Number</label>
+                        <input
+                          type="tel"
+                          className="form-control"
+                          id="phone"
+                          placeholder="Enter your phone number"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          required
+                        />
+                      </div>
+
                       <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" className="form-control" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="password"
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={handleFieldChange}
+                          required
+                        />
+                        {errors.password && <div className="text-danger">{errors.password}</div>}
                       </div>
+
                       <div className="mb-3">
                         <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                        <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="analyticsPhoto1" className="form-label">Upload Analytics Screenshot 1</label>
-                        <input type="file" className="form-control" id="analyticsPhoto1" accept="image/*" onChange={(e) => setAnalyticsPhoto1(e.target.files[0])} required />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="analyticsPhoto2" className="form-label">Upload Analytics Screenshot 2</label>
-                        <input type="file" className="form-control" id="analyticsPhoto2" accept="image/*" onChange={(e) => setAnalyticsPhoto2(e.target.files[0])} required />
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="confirmPassword"
+                          placeholder="Confirm your password"
+                          value={confirmPassword}
+                          onChange={handleFieldChange}
+                          required
+                        />
+                        {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
                       </div>
                     </div>
                   </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="analyticsPhoto1" className="form-label">Upload Analytics Photo 1</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="analyticsPhoto1"
+                      onChange={(e) => setAnalyticsPhoto1(e.target.files[0])}
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="analyticsPhoto2" className="form-label">Upload Analytics Photo 2</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="analyticsPhoto2"
+                      onChange={(e) => setAnalyticsPhoto2(e.target.files[0])}
+                    />
+                  </div>
+
                   <div className="text-center">
-                    <button type="submit" className="btn btn-primary btn-lg rounded-pill shadow-lg">Register as Creator</button>
+                    <button type="submit" className="btn btn-primary">Register</button>
                   </div>
                 </form>
               </div>
@@ -155,14 +281,8 @@ const CreatorRegistration = () => {
           </div>
         </div>
       </div>
-
-      <footer className="py-4" style={{ backgroundColor: "#333", color: "#fff", textAlign: "center" }}>
-        <div className="container">
-          <p>© 2025 Tinyties. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 };
 
-export default CreatorRegistration;
+export default RegisterCreator;

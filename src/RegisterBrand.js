@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import blueHand from "./pic/blue_hand.png";
 
-const BrandRegistration = () => {
+const RegisterBrand = () => {
   const [brandName, setBrandName] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -11,23 +12,24 @@ const BrandRegistration = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [aboutBrand, setAboutBrand] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic form validation
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setErrorMessage("Passwords do not match!");
       return;
     }
 
     if (!brandName || !ownerName || !startDate || !category || !panNumber || !email || !password) {
-      alert("All fields are required.");
+      setErrorMessage("All fields are required.");
       return;
     }
 
-    // Prepare form data to be sent to the backend
     const formData = {
       brandName,
       ownerName,
@@ -39,50 +41,58 @@ const BrandRegistration = () => {
       aboutBrand,
     };
 
-    // TODO: Implement the backend call here
-    // Example: Using fetch to send formData to the backend
-    /*
-    fetch('/api/register/brand', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to register");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          navigate("/login");  // Redirect to login on success
-        } else {
-          alert("Registration failed: " + data.message);  // Show error message
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
+    try {
+      const response = await fetch("http://localhost:5001/api/brands/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-    */
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage("Brand registered successfully!");
+        setErrorMessage(""); // Clear error if success
+        setTimeout(() => navigate("/login/brand"), 2000); // Redirect to login page after a brief delay
+      } else {
+        setErrorMessage(data.message || "An error occurred.");
+        setSuccessMessage(""); // Clear success message on error
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred while registering the brand.");
+      setSuccessMessage(""); // Clear success message on error
+    }
   };
 
   return (
     <div className="bg-light" style={{ overflowX: "hidden" }}>
-      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-        <div className="container">
-          <a className="navbar-brand text-primary fw-bold" href="/">
-            🔗 Tinyties
-          </a>
-        </div>
-      </nav>
+      <div className="container">
+        <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <div className="col-md-3 mb-2 mb-md-0">
+            <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+              <img src={blueHand} alt="TinyTies" width="40" height="40" />
+            </a>
+          </div>
+    
+          <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="#" className="nav-link px-2">Features</a></li>
+            <li><a href="#" className="nav-link px-2">Pricing</a></li>
+            <li><a href="#" className="nav-link px-2">FAQs</a></li>
+            <li><a href="#" className="nav-link px-2">About</a></li>
+          </ul>
+    
+          <div className="col-md-3 text-end">
+            <button type="button" className="btn btn-outline-primary me-2">Log In</button>
+            <button type="button" className="btn btn-primary">Sign Up</button>
+          </div>
+        </header>
+      </div>
 
       <div
         className="d-flex align-items-center min-vh-100"
-        style={{
-          background: "linear-gradient(135deg, #eaf3fc, #fdeef1)",
-          color: "#333",
-        }}
       >
         <div className="container text-center text-md-start">
           <div className="row align-items-center">
@@ -120,11 +130,6 @@ const BrandRegistration = () => {
                           value={brandName}
                           onChange={(e) => setBrandName(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -138,11 +143,6 @@ const BrandRegistration = () => {
                           value={ownerName}
                           onChange={(e) => setOwnerName(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -155,11 +155,6 @@ const BrandRegistration = () => {
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -173,11 +168,6 @@ const BrandRegistration = () => {
                           value={category}
                           onChange={(e) => setCategory(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
                     </div>
@@ -193,11 +183,6 @@ const BrandRegistration = () => {
                           value={panNumber}
                           onChange={(e) => setPanNumber(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -211,11 +196,6 @@ const BrandRegistration = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -229,11 +209,6 @@ const BrandRegistration = () => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
 
@@ -247,11 +222,6 @@ const BrandRegistration = () => {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           required
-                          style={{
-                            borderRadius: "10px",
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            padding: "12px",
-                          }}
                         />
                       </div>
                     </div>
@@ -266,25 +236,19 @@ const BrandRegistration = () => {
                       placeholder="Tell us more about your brand"
                       value={aboutBrand}
                       onChange={(e) => setAboutBrand(e.target.value)}
-                      required
-                      style={{
-                        borderRadius: "10px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                        padding: "12px",
-                      }}
                     />
                   </div>
+
+                  {/* Display success or error message */}
+                  {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                  {successMessage && <div className="alert alert-success">{successMessage}</div>}
 
                   <div className="text-center">
                     <button
                       type="submit"
-                      className="btn btn-primary btn-lg rounded-pill shadow-lg"
-                      style={{
-                        background: "#1976D2",
-                        color: "#fff",
-                      }}
+                      className="btn btn-primary btn-lg rounded-pill w-100"
                     >
-                      Register as Brand
+                      Register Brand
                     </button>
                   </div>
                 </form>
@@ -294,13 +258,25 @@ const BrandRegistration = () => {
         </div>
       </div>
 
-      <footer className="py-4" style={{ backgroundColor: "#333", color: "#fff", textAlign: "center" }}>
-        <div className="container">
-          <p>© 2025 Tinyties. All rights reserved.</p>
-        </div>
-      </footer>
+      <div className="container">
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+  
+      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src={blueHand} width="40" height="40" />
+      </a>
+  
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+    </footer>
+    </div>
     </div>
   );
 };
 
-export default BrandRegistration;
+export default RegisterBrand;
