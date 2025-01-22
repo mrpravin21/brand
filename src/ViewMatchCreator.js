@@ -54,20 +54,19 @@ const ViewMatchCreator = () => {
       <div className="card-grid">
         {creators.length > 0 ? (
           creators.map((creator) => (
-            <div className="card shadow" key={creator.creator_id}>
+            <div className="creator-card" key={creator.creator_id}>
               <div className="card-image">
-              <img
+                <img
                   src={`http://localhost:5001/${creator.analytics_photo1}`}
                   alt={`${creator.creator_name}`}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/150';
+                    e.target.src = "https://via.placeholder.com/150";
                   }}
-                  className="rounded"
                 />
               </div>
-              <div className="card-body text-center">
-                <h3 className="card-title fw-bold text-primary">{creator.creator_name}</h3>
-                <p className="card-category text-muted mb-2">{creator.category}</p>
+              <div className="card-body">
+                <h3 className="card-title">{creator.creator_name}</h3>
+                <p className="card-category">{creator.category}</p>
                 <p className="card-text">
                   <strong>Email:</strong> {creator.email}
                   <br />
