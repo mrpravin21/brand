@@ -23,3 +23,33 @@ CREATE TABLE brands (
     password VARCHAR(255) NOT NULL,
     about_brand TEXT
 );
+CREATE TABLE creator_details (
+  id SERIAL PRIMARY KEY,
+  creator_id INT NOT NULL,
+  creator_handle VARCHAR(255) NOT NULL,
+  audience_age_range VARCHAR(50) NOT NULL,
+  audience_demography TEXT NOT NULL,
+  audience_gender VARCHAR(20) NOT NULL,
+  total_reach INT NOT NULL,
+  content_type VARCHAR(50),
+  location VARCHAR(100) NOT NULL,
+  analytics_photo1 TEXT NOT NULL,
+  analytics_photo2 TEXT NOT NULL,
+  analytics_photo3 TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (creator_id) REFERENCES creators(id) ON DELETE CASCADE
+);
+CREATE TABLE campaigns (
+    campaign_id SERIAL PRIMARY KEY,
+    brand_id INT NOT NULL,
+    campaign_name VARCHAR(255) NOT NULL,
+    target_age_group VARCHAR(20) NOT NULL,
+    target_gender VARCHAR(10) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    budget INT NOT NULL,
+    target_location VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (brand_id) REFERENCES brands(id)
+);
