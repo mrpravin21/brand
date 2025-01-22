@@ -187,15 +187,17 @@ const RegisterCreator = () => {
                           required
                         >
                           <option value="">Select Category</option>
-                          <option value="Comedy">Comedy</option>
+                          <option value="Fashion">Fashion</option>
                           <option value="Riding">Riding</option>
-                          <option value="Food Vlog">Food Vlog</option>
+                          <option value="Food and Beverage">Food & Beverage</option>
                           <option value="Lifestyle">Lifestyle</option>
-                          <option value="Tech">Tech</option>
+                          <option value="Technology">Technology</option>
                           <option value="Gaming">Gaming</option>
                           <option value="Beauty">Beauty</option>
                           <option value="Fitness">Fitness</option>
+                          <option value="Organic">Organic</option>
                           <option value="Travel">Travel</option>
+                          <option value="Feel Good">Feel Good</option>
                         </select>
                       </div>
                       <div className="mb-3">

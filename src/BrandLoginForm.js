@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import blueHand from "./pic/blue_hand.png";
 
+let currentBrand;
+
 const BrandLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,10 @@ const BrandLoginForm = () => {
       // Store user details securely
       localStorage.setItem("userSession", JSON.stringify({...user, token, role: "brand"}));
 
-      alert(`Welcome back, ${user.brandName || "Brand"}!`);
+      //alert(`Welcome back, ${user.brandName || "Brand"}!`);
+      currentBrand = user.brandName;
+      alert(`Welcome back, ${currentBrand}!`)
+      
       navigate("/brand"); // Redirect to the brand dashboard
     } catch (err) {
       console.error(err);
@@ -149,3 +154,4 @@ const BrandLoginForm = () => {
 };
 
 export default BrandLoginForm;
+export { currentBrand };

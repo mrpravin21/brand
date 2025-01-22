@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import blueHand from "./pic/blue_hand.png";
+import { currentBrand } from "./BrandLoginForm";
 
 const BrandDashboard = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const BrandDashboard = () => {
           marginTop: "20px",
         }}
       >
-        <h1 className="fw-bold text-primary mb-3">Welcome Back, [Brand Name]!</h1>
+        <h1 className="fw-bold text-primary mb-3">Welcome Back, {currentBrand}!</h1>
         <p className="lead text-dark">Manage your campaigns and connect with influencers seamlessly.</p>
       </div>
 
@@ -111,7 +112,7 @@ const BrandDashboard = () => {
                   Launch new campaigns and reach your target audience effectively.
                 </p>
                 <Link
-                  to="/create-campaign"
+                  to="/brand-campaign"
                   className="btn btn-danger rounded-pill shadow-sm"
                 >
                   Start Now

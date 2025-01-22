@@ -22,6 +22,7 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.brandId = decoded.id;
+    console.log("Token verified, brandId:", req.brandId);  // Assuming this will correctly set the brandId in the request
     next();
   } catch (error) {
     console.error("Error verifying token:", error);
@@ -107,6 +108,71 @@ router.post('/login/brand', async (req, res) => {
     res.status(500).json({ message: "Error logging in." });
   }
 });
+
+// POST route to create a campaign and match creators
+// POST route to create a campaign (brand submits campaign details)
+router.post('/brand-campaign', verifyToken, async (req, res) => {
+  const { campaignName, targetAgeGroup, targetGender, category, budget, description, targetLocation } = req.body;
+  const brandId = req.brandId;
+
+  try {
+    // Insert campaign into the campaigns table without associating creators
+    const result = await pool.query(
+      'INSERT INTO campaigns (brand_id, campaign_name, target_age_group, target_gender, category, budget, description, target_location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING campaign_id',
+      [brandId, campaignName, targetAgeGroup, targetGender, category, budget, description, targetLocation]
+    );
+
+    // Send only the campaignId in the response
+    res.status(200).json({
+      message: "Campaign created successfully!",
+      campaignId: result.rows[0].campaign_id,
+    });
+  } catch (error) {
+    console.error("Error inserting campaign:", error);
+    res.status(500).json({ message: "Error creating campaign." });
+  }
+});
+
+// Route to match creators for a given campaign
+router.get("/brand-campaign/:campaignId/match-creators", verifyToken, async (req, res) => {
+  const { campaignId } = req.params;
+
+  try {
+    // Fetch campaign details from the database
+    const campaignResult = await pool.query(
+      "SELECT target_age_group, target_gender, target_location, category FROM campaigns WHERE campaign_id = $1",
+      [campaignId]
+    );
+    const campaign = campaignResult.rows[0];
+
+    if (!campaign) {
+      return res.status(404).json({ message: "Campaign not found." });
+    }
+
+    const { target_age_group, target_gender, target_location, category } = campaign;
+
+    // Query to find matching creators
+    const creatorsResult = await pool.query(
+      `SELECT c.id AS creator_id, c.creator_name, c.email, cd.audience_age_range, 
+              cd.audience_gender, cd.location, c.category, cd.total_reach, c.analytics_photo1
+       FROM creators c
+       JOIN creator_details cd ON c.id = cd.creator_id
+       WHERE c.category = $1
+         AND cd.audience_age_range = $2
+         AND cd.audience_gender = $3
+         AND cd.location = $4`,
+      [category, target_age_group, target_gender, target_location]
+    );
+
+    const matchedCreators = creatorsResult.rows;
+
+    res.status(200).json({ matchedCreators });
+  } catch (error) {
+    console.error("Error matching creators:", error);
+    res.status(500).json({ message: "Error matching creators." });
+  }
+});
+
 
 
 

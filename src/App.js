@@ -25,6 +25,10 @@ import Hello from './hello';
 import ProtectedRoute from './ProtectedRoute';
 import Hellobrand from './hellobrand';
 import CreatorDetail from './CreatorDetails';
+import CampaignForm from './CampaignForm';
+import RequestCreator from './RequestCreator';
+import ViewMatchCreator from './ViewMatchCreator';
+
 
 function App() {
   return (
@@ -88,6 +92,29 @@ function App() {
             </ProtectedRoute>
         }/>
 
+          <Route
+          path="/brand-campaign"
+          element={
+            <ProtectedRoute role="brand">
+              <CampaignForm />
+            </ProtectedRoute>
+        }/>
+
+          <Route
+          path="/request-creator"
+          element={
+            <ProtectedRoute role="brand">
+              <RequestCreator />
+            </ProtectedRoute>
+        }/>
+
+          <Route
+          path="/view-match-creator"
+          element={
+            <ProtectedRoute role="brand">
+              <ViewMatchCreator />
+            </ProtectedRoute>
+        }/>
         {/* Wildcard Redirect */}
         <Route path="*" element={<Navigate to="/login/creator" replace />} />
       </Routes>
