@@ -1,4 +1,3 @@
-DATABSE KO NAAM Tinyties
 CREATE TABLE creators (
   id SERIAL PRIMARY KEY,
   creator_name VARCHAR(255) NOT NULL,

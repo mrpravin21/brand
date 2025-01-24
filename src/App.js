@@ -17,7 +17,6 @@ import RegisterCreator from './RegisterCreator';
 
 // Import dashboards
 import BrandDashboard from './BrandDashboard';
-import CreatorDashboard from './CreatorDashboard';
 
 // Import additional components
 import CreatorDetails from './CreatorDetails';
@@ -28,6 +27,7 @@ import CreatorDetail from './CreatorDetails';
 import CampaignForm from './CampaignForm';
 import RequestCreator from './RequestCreator';
 import ViewMatchCreator from './ViewMatchCreator';
+import CreatorDashboard from './CreatorDashboard';
 
 
 function App() {
@@ -68,10 +68,10 @@ function App() {
         />
 
           <Route
-            path="/hello"
+            path="/creator"
             element={
             <ProtectedRoute role="creator">
-              <Hello />
+              <CreatorDashboard />
             </ProtectedRoute>
             }
           />

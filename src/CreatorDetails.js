@@ -90,7 +90,7 @@ const CreatorDetail = () => {
       })
       .then((data) => {
         alert(data.message || "Submission successful!");
-        navigate("/hello"); // Redirect on success
+        navigate("/creator"); // Redirect on success
       })
       .catch((error) => {
         console.error("Error:", error);

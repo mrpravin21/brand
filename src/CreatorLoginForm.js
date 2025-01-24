@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import blueHand from "./pic/blue_hand.png";
 
+let currentCreator;
+
 const CreatorLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +23,10 @@ const CreatorLoginForm = () => {
   
       // Store user details in localStorage or context
       localStorage.setItem("userSession", JSON.stringify({...user, token, role: "creator"}));
-  
+      
+      currentCreator = user.creatorName;
       alert(`Welcome back, ${user.creatorName}!`);
-      navigate("/hello"); // Redirect to the creator dashboard
+      navigate("/creator"); // Redirect to the creator dashboard
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "An error occurred. Please try again.");
@@ -146,4 +149,5 @@ const CreatorLoginForm = () => {
 };
 
 export default CreatorLoginForm;
+export {currentCreator};
 
