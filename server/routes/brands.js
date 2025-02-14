@@ -173,6 +173,24 @@ router.get("/brand-campaign/:campaignId/match-creators", verifyToken, async (req
   }
 });
 
+// Route to fetch campaigns for the logged-in brand
+router.get('/brand-campaigns', verifyToken, async (req, res) => {
+  const brandId = req.brandId;  // Extracted from token
+
+  try {
+    const campaignsResult = await pool.query(
+      'SELECT * FROM campaigns WHERE brand_id = $1',
+      [brandId]
+    );
+
+    res.status(200).json({ campaigns: campaignsResult.rows });
+  } catch (error) {
+    console.error("Error fetching campaigns:", error);
+    res.status(500).json({ message: "Error fetching campaigns." });
+  }
+});
+
+
 
 
 

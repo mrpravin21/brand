@@ -73,7 +73,7 @@ const CampaignForm = () => {
         alert(data.message || "Campaign created successfully!");
 
         // Navigate to the next page without the creatorsMatched data
-        navigate("/request-creator", {
+        navigate("/brand", {
           state: {
             campaignId: data.campaignId, // Pass only campaignId for now
           },

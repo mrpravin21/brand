@@ -28,7 +28,7 @@ import CampaignForm from './CampaignForm';
 import RequestCreator from './RequestCreator';
 import ViewMatchCreator from './ViewMatchCreator';
 import CreatorDashboard from './CreatorDashboard';
-
+import BrandCampaigns from './BrandCampaigns';
 
 function App() {
   return (
@@ -113,6 +113,13 @@ function App() {
           element={
             <ProtectedRoute role="brand">
               <ViewMatchCreator />
+            </ProtectedRoute>
+        }/>
+        <Route
+          path="/brand-campaigns"
+          element={
+            <ProtectedRoute role="brand">
+              <BrandCampaigns />
             </ProtectedRoute>
         }/>
         {/* Wildcard Redirect */}

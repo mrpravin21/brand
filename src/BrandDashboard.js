@@ -90,7 +90,7 @@ const BrandDashboard = () => {
                   Review your previous campaigns and measure their success.
                 </p>
                 <Link
-                  to="/past-projects"
+                  to="/brand-campaigns"
                   className="btn btn-success rounded-pill shadow-sm"
                 >
                   View Projects
