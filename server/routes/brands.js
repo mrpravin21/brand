@@ -245,6 +245,30 @@ router.get("/view-hired-creator/:brandId/campaigns/hired-creator", async (req, r
   }
 });
 
+router.delete("/brand-campaigns/:brandId/delete/:campaignId", async (req, res) => {
+  const { brandId, campaignId } = req.params;
+  
+
+  try {
+      // Ensure the campaign belongs to the brand
+      const campaign = await pool.query(
+          "SELECT * FROM campaigns WHERE campaign_id = $1 AND brand_id = $2",
+          [campaignId, brandId]
+      );
+
+      if (campaign.rowCount === 0) {
+          return res.status(404).json({ message: "Campaign not found or unauthorized." });
+      }
+
+      // Delete the campaign (hired_creators will be deleted automatically)
+      await pool.query("DELETE FROM campaigns WHERE campaign_id = $1", [campaignId]);
+
+      res.json({ message: "Campaign deleted successfully!" });
+  } catch (error) {
+      console.error("Error deleting campaign:", error);
+      res.status(500).json({ message: "Server error while deleting campaign." });
+  }
+});
 
 
 

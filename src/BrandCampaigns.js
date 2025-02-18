@@ -101,6 +101,30 @@ const BrandCampaigns = () => {
     navigate("/view-hired-creator", { state: { campaignId, hiredCreators: hiredCreators[campaignId] } });
   };
 
+  const handleDeleteCampaign = async (campaignId) => {
+    if (!window.confirm("Are you sure you want to delete this campaign?")) return;
+
+    try {
+      const userSession = JSON.parse(localStorage.getItem("userSession"));
+      const token = userSession?.token;
+      const brandId = userSession?.id;
+        const response = await fetch(`http://localhost:5001/api/brands/brand-campaigns/${brandId}/delete/${campaignId}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+
+        alert("Campaign deleted successfully!");
+        setCampaigns(campaigns.filter((c) => c.campaign_id !== campaignId)); // Update state
+    } catch (error) {
+        console.error("Error deleting campaign:", error);
+        alert(error.message || "Failed to delete campaign.");
+    }
+};
+
+
   if (loading) return <p>Loading campaigns...</p>;
 
   return (
@@ -116,6 +140,7 @@ const BrandCampaigns = () => {
             <th>Budget</th>
             <th>Location</th>
             <th>Actions</th>
+            <th>DELETE</th>
           </tr>
         </thead>
         <tbody>
@@ -144,6 +169,11 @@ const BrandCampaigns = () => {
                       Request Creator
                     </button>
                   )}
+                </td>
+                <td>
+                <button onClick={() => handleDeleteCampaign(campaign.campaign_id)} className="btn btn-danger">
+                        Delete
+                </button>
                 </td>
               </tr>
             ))
