@@ -111,3 +111,65 @@
   color: #555;
   margin-bottom: 8px;
 }
+.hire-button-container {
+  display: none;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* Show button when card is hovered */
+.creator-card:hover .hire-button-container {
+  display: block;
+}
+.creator-card {
+  position: relative;
+  background: linear-gradient(to top right, #eaf3fc, #fdeef1);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure the card has enough space at the bottom for the button */
+/* Ensure the card has enough space at the bottom */
+.creator-card {
+  position: relative;
+  background: linear-gradient(to top right, #eaf3fc, #fdeef1);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-bottom: 60px; /* Extend bottom to fit the button with margin */
+}
+
+/* Ensure some space between the text body and the button */
+.hire-button-container {
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  padding-top: 10px; /* Adds space between text and button */
+}
+
+/* Show button when card is hovered */
+.creator-card:hover .hire-button-container {
+  display: block;
+}
+
+/* Button styling */
+.hire-button-container button {
+  padding: 8px 20px;
+  font-size: 1rem;
+  border-radius: 20px;
+  transition: background 0.3s;
+}

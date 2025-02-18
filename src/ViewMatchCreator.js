@@ -48,6 +48,40 @@ const ViewMatchCreator = () => {
 
   if (loading) return <div className="loading-container">Loading...</div>;
 
+  const handleHireRequest = async (creatorId) => {
+    const campaignId = location.state.campaignId;
+    const brandId = JSON.parse(localStorage.getItem("userSession"))?.id;
+    const token = JSON.parse(localStorage.getItem("userSession"))?.token;
+  
+    if (!brandId || !campaignId || !creatorId) {
+      alert("Missing required data. Please refresh and try again.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/brands/hire-creator/${brandId}/campaigns/${campaignId}/hire/${creatorId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+  
+      alert("Hiring request sent successfully!");
+    } catch (error) {
+      console.error("Error sending hire request:", error);
+      alert(error.message || "Failed to send hire request.");
+    }
+  };
+  
+  
+
   return (
     <div className="container">
       <h1 className="text-primary fw-bold">Matched Creators</h1>
@@ -78,6 +112,10 @@ const ViewMatchCreator = () => {
                   <br />
                   <strong>Total Reach:</strong> {creator.total_reach}
                 </p>
+              </div>
+
+              <div className="hire-button-container">
+                <button className="btn btn-primary btn-rounded-pill" onClick={() => handleHireRequest(creator.creator_id)}>Hire</button>
               </div>
             </div>
           ))

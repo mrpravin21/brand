@@ -191,6 +191,60 @@ router.get('/brand-campaigns', verifyToken, async (req, res) => {
 });
 
 
+router.post("/hire-creator/:brandId/campaigns/:campaignId/hire/:creatorId", async (req, res) => {
+  const { brandId, campaignId, creatorId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO hiring_requests (campaign_id, brand_id, creator_id) 
+       VALUES ($1, $2, $3) 
+       ON CONFLICT (campaign_id, creator_id) DO NOTHING 
+       RETURNING *`,
+      [campaignId, brandId, creatorId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(409).json({ message: "Request already sent to this creator" });
+    }
+
+    res.status(201).json({ message: "Hiring request sent successfully", data: result.rows[0] });
+  } catch (error) {
+    console.error("Error sending hire request:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+router.get("/view-hired-creator/:brandId/campaigns/hired-creator", async (req, res) => {
+  const { brandId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT hc.campaign_id, 
+       c.campaign_name, 
+       cr.id AS creator_id, 
+       cr.creator_name, 
+       cr.email, 
+       cr.analytics_photo1, 
+       cd.audience_age_range, 
+       cd.audience_gender, 
+       cd.total_reach, 
+       cd.location
+       FROM hired_creators hc
+       JOIN campaigns c ON hc.campaign_id = c.campaign_id
+       JOIN creators cr ON hc.creator_id = cr.id
+       JOIN creator_details cd ON cr.id = cd.creator_id
+       WHERE hc.brand_id = $1`,
+      [brandId]
+    );
+
+    res.json({ hiredCreators: result.rows });
+  } catch (error) {
+    console.error("Error fetching hired creators:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 

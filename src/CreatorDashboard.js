@@ -70,7 +70,7 @@ const CreatorDashboard = () => {
                   Review your previous campaigns and measure their success.
                 </p>
                 <Link
-                  to="/past-projects"
+                  to="/hiring-creator"
                   className="btn btn-success rounded-pill shadow-sm"
                 >
                   View Projects

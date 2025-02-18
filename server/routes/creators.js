@@ -215,6 +215,86 @@ router.post('/creator-details', verifyToken, upload.fields([
 });
 
 
+router.get("/hire-creator/:creatorId/hiring-requests", async (req, res) => {
+  const { creatorId } = req.params;
+
+  try {
+    const result = await pool.query(
+      "SELECT hr.id, hr.campaign_id, hr.brand_id, hr.status, c.campaign_name, b.brand_name, c.budget, c.category AS campaign_category, c.target_location AS campaign_location, c.target_age_group, c.target_gender FROM hiring_requests hr JOIN campaigns c ON hr.campaign_id = c.campaign_id JOIN brands b ON hr.brand_id = b.id WHERE hr.creator_id = $1 AND hr.status = 'pending'",
+      [creatorId]
+    );
+
+    res.json({ hiringRequests: result.rows });
+  } catch (error) {
+    console.error("Error fetching hiring requests:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+router.post("/hire-creator/:creatorId/hiring-requests/:requestId/accept", async (req, res) => {
+  const { creatorId, requestId } = req.params;
+  const { campaignId, brandId } = req.body;
+
+
+  console.log("creatorId:", creatorId);
+  console.log("requestId:", requestId);
+  console.log("campaignId:", campaignId);
+  console.log("brandId:", brandId);
+  // Validate requestId, campaignId, brandId
+  if (!requestId || !campaignId || !brandId) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    await pool.query("BEGIN"); // Start transaction
+
+    // Insert into hired_creators table
+    await pool.query(
+      `INSERT INTO hired_creators (campaign_id, brand_id, creator_id) 
+       VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
+      [campaignId, brandId, creatorId]
+    );
+
+    // Update hiring request status to 'accepted'
+    await pool.query(
+      `UPDATE hiring_requests SET status = 'accepted' 
+       WHERE id = $1 AND creator_id = $2`,
+      [requestId, creatorId]
+    );
+
+    await pool.query("COMMIT"); // Commit transaction
+
+    res.status(200).json({ message: "Creator successfully hired!" });
+  } catch (error) {
+    await pool.query("ROLLBACK"); // Rollback on error
+    console.error("Error accepting hire:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
+
+router.post("hire-creator/:creatorId/hiring-requests/:requestId/reject", async (req, res) => {
+  const { creatorId, requestId } = req.params;
+
+  try {
+    await pool.query(
+      `UPDATE hiring_requests SET status = 'rejected' 
+       WHERE id = $1 AND creator_id = $2`,
+      [requestId, creatorId]
+    );
+
+    res.status(200).json({ message: "Hiring request rejected" });
+  } catch (error) {
+    console.error("Error rejecting hire:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
 module.exports = router;
 
 

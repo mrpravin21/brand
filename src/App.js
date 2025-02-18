@@ -29,6 +29,8 @@ import RequestCreator from './RequestCreator';
 import ViewMatchCreator from './ViewMatchCreator';
 import CreatorDashboard from './CreatorDashboard';
 import BrandCampaigns from './BrandCampaigns';
+import CreatorHiring from './CreatorHiring';
+import ViewHiredCreator from './ViewHiredCreator';
 
 function App() {
   return (
@@ -72,6 +74,15 @@ function App() {
             element={
             <ProtectedRoute role="creator">
               <CreatorDashboard />
+            </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/hiring-creator"
+            element={
+            <ProtectedRoute role="creator">
+              <CreatorHiring />
             </ProtectedRoute>
             }
           />
@@ -120,6 +131,14 @@ function App() {
           element={
             <ProtectedRoute role="brand">
               <BrandCampaigns />
+            </ProtectedRoute>
+        }/>
+
+        <Route
+          path="/view-hired-creator"
+          element={
+            <ProtectedRoute role="brand">
+              <ViewHiredCreator />
             </ProtectedRoute>
         }/>
         {/* Wildcard Redirect */}
