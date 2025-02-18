@@ -52,3 +52,26 @@ CREATE TABLE campaigns (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (brand_id) REFERENCES brands(id)
 );
+CREATE TABLE hiring_requests (
+  id SERIAL PRIMARY KEY,
+  campaign_id INT NOT NULL,
+  brand_id INT NOT NULL,
+  creator_id INT NOT NULL,
+  status VARCHAR(20) DEFAULT 'pending',
+  requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id) ON DELETE CASCADE,
+  FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE CASCADE,
+  FOREIGN KEY (creator_id) REFERENCES creators(id) ON DELETE CASCADE,
+  UNIQUE (campaign_id, creator_id)
+);
+CREATE TABLE hired_creators (
+  id SERIAL PRIMARY KEY,
+  campaign_id INT NOT NULL,
+  brand_id INT NOT NULL,
+  creator_id INT NOT NULL,
+  hired_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id) ON DELETE CASCADE,
+  FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE CASCADE,
+  FOREIGN KEY (creator_id) REFERENCES creators(id) ON DELETE CASCADE,
+  UNIQUE (campaign_id, creator_id)
+);
