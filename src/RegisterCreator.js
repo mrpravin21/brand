@@ -11,6 +11,7 @@ const RegisterCreator = () => {
   const [contentType, setContentType] = useState("");
   const [socialLinks, setSocialLinks] = useState("");
   const [password, setPassword] = useState("");
+  //const [successMessage, setSuccessMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [analyticsPhoto1, setAnalyticsPhoto1] = useState(null);
   const [analyticsPhoto2, setAnalyticsPhoto2] = useState(null);
@@ -100,6 +101,7 @@ const RegisterCreator = () => {
       .then((data) => {
         if (data.message) {
           alert(data.message);
+          //setSuccessMessage("Brand registered successfully!");
           navigate("/login/creator");
         } else {
           alert("Registration failed.");
