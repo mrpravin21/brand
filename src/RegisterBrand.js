@@ -17,8 +17,32 @@ const RegisterBrand = () => {
 
   const navigate = useNavigate();
 
+  // Validation functions
+  const isValidPAN = (pan) => /^\d{9}$/.test(pan); // Exactly 9 digits
+  const isValidEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/.test(email);
+  const isValidPassword = (password) => 
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/.test(password);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Reset error messages
+
+    if (!isValidPAN(panNumber)) {
+      setErrorMessage("PAN number must be exactly 9 digits and contain only numbers.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setErrorMessage("Email must be in the format '____@mail.com'.");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setErrorMessage(
+        "Password must be at least 8 characters, contain at least 1 uppercase letter, 1 number, and 1 special character."
+      );
+      return;
+    }
 
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match!");
@@ -54,15 +78,12 @@ const RegisterBrand = () => {
 
       if (response.ok) {
         setSuccessMessage("Brand registered successfully!");
-        setErrorMessage(""); // Clear error if success
-        setTimeout(() => navigate("/login/brand"), 2000); // Redirect to login page after a brief delay
+        setTimeout(() => navigate("/login/brand"), 2000);
       } else {
         setErrorMessage(data.message || "An error occurred.");
-        setSuccessMessage(""); // Clear success message on error
       }
     } catch (error) {
       setErrorMessage("An error occurred while registering the brand.");
-      setSuccessMessage(""); // Clear success message on error
     }
   };
 
@@ -75,13 +96,13 @@ const RegisterBrand = () => {
               <img src={blueHand} alt="TinyTies" width="40" height="40" />
             </Link>
           </div>
+    
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
-            <li><Link to="/" className="nav-link px-2">Features</Link></li>
-            <li><a href="#" className="nav-link px-2">Pricing</a></li>
-            <li><a href="#" className="nav-link px-2">FAQs</a></li>
-            <li><a href="#" className="nav-link px-2">About</a></li>
+            <li><Link to="/register/brand" className="nav-link px-2">Brand</Link></li>
+            <li><Link to="/register/creator" className="nav-link px-2">Creator</Link></li>
           </ul>
+    
           <div className="col-md-3 text-end">
             <Link to="/login/brand"><button type="button" className="btn btn-primary me-2 rounded-pill">Brand</button></Link>
             <Link to="/login/creator"><button type="button" className="btn btn-primary me-2 rounded-pill">Creator</button></Link>
@@ -268,20 +289,20 @@ const RegisterBrand = () => {
       </div>
 
       <div className="container">
-        <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
-          <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <img src={blueHand} width="40" height="40" />
-          </a>
-          <ul className="nav col-md-4 justify-content-end">
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Home</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Features</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Pricing</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">FAQs</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">About</a></li>
-          </ul>
-        </footer>
-      </div>
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p className="col-md-4 mb-0 text-body-secondary">© TinyTies</p>
+  
+      <Link to="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src={blueHand} width="40" height="40" />
+      </Link>
+  
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><Link to="/" class="nav-link px-2 text-body-secondary">Home</Link></li>
+        <li className="nav-item"><a href="https://github.com/mrpravin21/brand" target="_blank" class="nav-link px-2 text-body-primary">GitHub</a></li>
+        <li className="nav-item"><a href="https://www.instagram.com/_tinyties/" target="_blank" class="nav-link px-2 text-body-primary">Instagram</a></li>
+      </ul>
+    </footer>
+    </div>
     </div>
   );
 };

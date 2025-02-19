@@ -270,6 +270,66 @@ router.delete("/brand-campaigns/:brandId/delete/:campaignId", async (req, res) =
   }
 });
 
+router.put("/update/:brandId", verifyToken, async (req, res) => {
+  const { brandName, ownerName, email, password } = req.body;
+  const { brandId } = req.params;
+  // Get brand ID from token
+
+  try {
+      // Check if email is already in use
+      const emailExists = await pool.query(
+          "SELECT id FROM brands WHERE email = $1 AND id <> $2",
+          [email, brandId]
+      );
+
+      if (emailExists.rowCount > 0) {
+          return res.status(400).json({ message: "Email is already in use by another brand." });
+      }
+
+      // Hash password if updating
+      let hashedPassword = null;
+      if (password) {
+          hashedPassword = await bcrypt.hash(password, 10);
+      }
+
+      // Update brand details
+      await pool.query(
+          `UPDATE brands 
+           SET brand_name = $1, owner_name = $2, email = $3,  password = COALESCE($4, password) 
+           WHERE id = $5`,
+          [brandName, ownerName, email, hashedPassword, brandId]
+      );
+
+      res.json({ message: "Brand details updated successfully!" });
+  } catch (error) {
+      console.error("Update error:", error);
+      res.status(500).json({ message: "Error updating brand details." });
+  }
+});
+
+
+router.get("/profile/:brandId", async (req, res) => {
+  try {
+      const { brandId } = req.params; // Extract brandId from URL parameter
+      console.log("Fetching profile for brand ID:", brandId);
+
+      if (!brandId) {
+          return res.status(400).json({ message: "Brand ID is required." });
+      }
+
+      const brand = await pool.query("SELECT * FROM brands WHERE id = $1", [brandId]);
+
+      if (brand.rows.length === 0) {
+          return res.status(404).json({ message: "Brand not found." });
+      }
+
+      res.json(brand.rows[0]);
+  } catch (error) {
+      console.error("Error fetching brand profile:", error);
+      res.status(500).json({ message: "Server error while fetching brand profile." });
+  }
+});
+
 
 
 module.exports = router;

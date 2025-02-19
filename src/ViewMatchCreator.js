@@ -75,6 +75,7 @@ const ViewMatchCreator = () => {
       if (!response.ok) throw new Error(data.message);
   
       alert("Hiring request sent successfully!");
+      navigate("/brand");
     } catch (error) {
       console.error("Error sending hire request:", error);
       alert(error.message || "Failed to send hire request.");

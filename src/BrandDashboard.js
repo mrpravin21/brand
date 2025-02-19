@@ -30,7 +30,7 @@ const BrandDashboard = () => {
             <li><Link to="/view-influencer" className="nav-link px-2">Creators</Link></li>
             <li><Link to="/brand-campaigns" className="nav-link px-2">Campaign</Link></li>
             <li><Link to="/brand-campaign" className="nav-link px-2">New Campaign</Link></li>
-            <li><Link to="/" className="nav-link px-2">Update</Link></li>
+            <li><Link to="/brand/update" className="nav-link px-2">Update</Link></li>
           </ul>
     
           <div className="col-md-3 text-end">

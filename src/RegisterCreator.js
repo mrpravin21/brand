@@ -11,16 +11,15 @@ const RegisterCreator = () => {
   const [contentType, setContentType] = useState("");
   const [socialLinks, setSocialLinks] = useState("");
   const [password, setPassword] = useState("");
-  //const [successMessage, setSuccessMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [analyticsPhoto1, setAnalyticsPhoto1] = useState(null);
   const [analyticsPhoto2, setAnalyticsPhoto2] = useState(null);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Real-time validation for email
+  // Real-time email validation
   const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
     return emailPattern.test(email);
   };
 
@@ -28,6 +27,12 @@ const RegisterCreator = () => {
   const validatePassword = (password) => {
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return passwordPattern.test(password);
+  };
+
+  // Real-time phone number validation
+  const validatePhone = (phone) => {
+    const phonePattern = /^9\d{9}$/; // Ensures the phone starts with '9' and is exactly 10 digits long
+    return phonePattern.test(phone);
   };
 
   // Handle real-time validation for all fields
@@ -38,12 +43,22 @@ const RegisterCreator = () => {
     switch (id) {
       case "email":
         if (!validateEmail(value)) {
-          newErrors.email = "Please enter a valid email address.";
+          newErrors.email = "Please enter a valid email address (e.g., user@domain.com).";
         } else {
           delete newErrors.email;
         }
         setEmail(value);
         break;
+
+      case "phone":
+        if (!validatePhone(value)) {
+          newErrors.phone = "Phone number must be 10 digits and start with '9'.";
+        } else {
+          delete newErrors.phone;
+        }
+        setPhone(value);
+        break;
+
       case "password":
         if (!validatePassword(value)) {
           newErrors.password = "Password must be at least 8 characters long, with 1 number, 1 uppercase, and 1 lowercase letter.";
@@ -52,6 +67,7 @@ const RegisterCreator = () => {
         }
         setPassword(value);
         break;
+
       case "confirmPassword":
         if (value !== password) {
           newErrors.confirmPassword = "Passwords do not match.";
@@ -60,6 +76,7 @@ const RegisterCreator = () => {
         }
         setConfirmPassword(value);
         break;
+
       default:
         break;
     }
@@ -101,7 +118,6 @@ const RegisterCreator = () => {
       .then((data) => {
         if (data.message) {
           alert(data.message);
-          //setSuccessMessage("Brand registered successfully!");
           navigate("/login/creator");
         } else {
           alert("Registration failed.");
@@ -115,7 +131,7 @@ const RegisterCreator = () => {
 
   return (
     <div className="bg-light" style={{ overflowX: "hidden" }}>
-     <div className="container">
+      <div className="container">
         <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
           <div className="col-md-3 mb-2 mb-md-0">
             <Link to="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
@@ -125,10 +141,8 @@ const RegisterCreator = () => {
     
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
-            <li><Link to="/" className="nav-link px-2">Features</Link></li>
-            <li><a href="#" className="nav-link px-2">Pricing</a></li>
-            <li><a href="#" className="nav-link px-2">FAQs</a></li>
-            <li><a href="#" className="nav-link px-2">About</a></li>
+            <li><Link to="/register/brand" className="nav-link px-2">Brand</Link></li>
+            <li><Link to="/register/creator" className="nav-link px-2">Creator</Link></li>
           </ul>
     
           <div className="col-md-3 text-end">
@@ -178,7 +192,7 @@ const RegisterCreator = () => {
                           required
                         />
                       </div>
-                      
+
                       <div className="mb-3">
                         <label htmlFor="category" className="form-label">Creator Category</label>
                         <select
@@ -216,7 +230,6 @@ const RegisterCreator = () => {
                     </div>
 
                     <div className="col-md-6">
-                   
                       <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email</label>
                         <input
@@ -238,9 +251,10 @@ const RegisterCreator = () => {
                           id="phone"
                           placeholder="Enter your phone number"
                           value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          onChange={handleFieldChange}
                           required
                         />
+                        {errors.phone && <div className="text-danger">{errors.phone}</div>}
                       </div>
 
                       <div className="mb-3">
@@ -274,7 +288,7 @@ const RegisterCreator = () => {
                   </div>
 
                   <div className="mb-3">
-                    <label htmlFor="analyticsPhoto1" className="form-label">Upload Analytics Photo 1</label>
+                    <label htmlFor="analyticsPhoto1" className="form-label">Upload Profile Picture</label>
                     <input
                       type="file"
                       className="form-control"
@@ -284,7 +298,7 @@ const RegisterCreator = () => {
                   </div>
 
                   <div className="mb-3">
-                    <label htmlFor="analyticsPhoto2" className="form-label">Upload Analytics Photo 2</label>
+                    <label htmlFor="analyticsPhoto2" className="form-label">Upload Alternate Picture</label>
                     <input
                       type="file"
                       className="form-control"
@@ -305,18 +319,16 @@ const RegisterCreator = () => {
 
       <div className="container">
     <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+      <p className="col-md-4 mb-0 text-body-secondary">© TinyTies</p>
   
-      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <Link to="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <img src={blueHand} width="40" height="40" />
-      </a>
+      </Link>
   
       <ul className="nav col-md-4 justify-content-end">
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+        <li className="nav-item"><Link to="/" class="nav-link px-2 text-body-secondary">Home</Link></li>
+        <li className="nav-item"><a href="https://github.com/mrpravin21/brand" target="_blank" class="nav-link px-2 text-body-primary">GitHub</a></li>
+        <li className="nav-item"><a href="https://www.instagram.com/_tinyties/" target="_blank" class="nav-link px-2 text-body-primary">Instagram</a></li>
       </ul>
     </footer>
     </div>

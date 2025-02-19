@@ -293,9 +293,66 @@ router.post("hire-creator/:creatorId/hiring-requests/:requestId/reject", async (
   }
 });
 
+router.put("/update/:creatorId", verifyToken, async (req, res) => {
+  const { creatorName, phoneNumber, email, password } = req.body;
+  const { creatorId } = req.params;
+  // Get brand ID from token
+
+  try {
+      // Check if email is already in use
+      const emailExists = await pool.query(
+          "SELECT id FROM creators WHERE email = $1 AND id <> $2",
+          [email, creatorId]
+      );
+
+      if (emailExists.rowCount > 0) {
+          return res.status(400).json({ message: "Email is already in use by another creator." });
+      }
+
+      // Hash password if updating
+      let hashedPassword = null;
+      if (password) {
+          hashedPassword = await bcrypt.hash(password, 10);
+      }
+
+      // Update brand details
+      await pool.query(
+          `UPDATE creators 
+           SET creator_name = $1, phone = $2, email = $3,  password = COALESCE($4, password) 
+           WHERE id = $5`,
+          [creatorName, phoneNumber, email, hashedPassword, creatorId]
+      );
+
+      res.json({ message: "Creator details updated successfully!" });
+  } catch (error) {
+      console.error("Update error:", error);
+      res.status(500).json({ message: "Error updating creator details." });
+  }
+});
 
 
-module.exports = router;
+router.get("/profile/:creatorId", async (req, res) => {
+  try {
+      const { creatorId } = req.params; // Extract brandId from URL parameter
+      console.log("Fetching profile for creator ID:", creatorId);
+
+      if (!creatorId) {
+          return res.status(400).json({ message: "creator ID is required." });
+      }
+
+      const creator = await pool.query("SELECT * FROM creators WHERE id = $1", [creatorId]);
+
+      if (creator.rows.length === 0) {
+          return res.status(404).json({ message: "creator not found." });
+      }
+
+      res.json(creator.rows[0]);
+  } catch (error) {
+      console.error("Error fetching creator profile:", error);
+      res.status(500).json({ message: "Server error while fetching creator profile." });
+  }
+});
+
 
 
 module.exports = router;

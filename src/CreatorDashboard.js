@@ -21,17 +21,16 @@ const CreatorDashboard = () => {
       <div className="container">
         <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
           <div className="col-md-3 mb-2 mb-md-0">
-            <Link to="/" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
+            <Link to="/creator" className="d-inline-flex link-body-emphasis text-decoration-none font-weight-light">
               <img src={blueHand} alt="TinyTies" width="40" height="40" />
             </Link>
           </div>
     
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
-            <li><Link to="/" className="nav-link px-2">Features</Link></li>
-            <li><a href="#" className="nav-link px-2">Pricing</a></li>
-            <li><a href="#" className="nav-link px-2">FAQs</a></li>
-            <li><a href="#" className="nav-link px-2">About</a></li>
+            <li><Link to="/creator" className="nav-link px-2 link-secondary">Home</Link></li>
+            <li><Link to="/hiring-creator" className="nav-link px-2">Requests</Link></li>
+            <li><Link to="/creator-detail" className="nav-link px-2">Detail</Link></li>
+            <li><Link to="/creator/update" className="nav-link px-2">Update</Link></li>
           </ul>
     
           <div className="col-md-3 text-end">
@@ -65,15 +64,15 @@ const CreatorDashboard = () => {
             >
               <div className="card-body">
                 <i className="bi bi-folder fs-1 text-success mb-3"></i>
-                <h5 className="card-title fw-bold">Your Past Projects</h5>
+                <h5 className="card-title fw-bold">Brand Requests</h5>
                 <p className="card-text text-muted">
-                  Review your previous campaigns and measure their success.
+                  Review the brands willing to hire you for a campaign.
                 </p>
                 <Link
                   to="/hiring-creator"
                   className="btn btn-success rounded-pill shadow-sm"
                 >
-                  View Projects
+                  View Requests
                 </Link>
               </div>
             </div>
@@ -106,18 +105,16 @@ const CreatorDashboard = () => {
       {/* Footer */}
       <div className="container">
     <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p className="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+      <p className="col-md-4 mb-0 text-body-secondary">© TinyTies</p>
   
-      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <Link to="/creator" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <img src={blueHand} width="40" height="40" />
-      </a>
+      </Link>
   
       <ul className="nav col-md-4 justify-content-end">
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+        <li className="nav-item"><Link to="/creator" class="nav-link px-2 text-body-secondary">Home</Link></li>
+        <li className="nav-item"><a href="https://github.com/mrpravin21/brand" target="_blank" class="nav-link px-2 text-body-primary">GitHub</a></li>
+        <li className="nav-item"><a href="https://www.instagram.com/_tinyties/" target="_blank" class="nav-link px-2 text-body-primary">Instagram</a></li>
       </ul>
     </footer>
     </div>
