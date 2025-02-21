@@ -85,7 +85,7 @@ const BrandDashboard = () => {
             >
               <div className="card-body">
                 <i className="bi bi-folder fs-1 text-success mb-3"></i>
-                <h5 className="card-title fw-bold">Your Past Projects</h5>
+                <h5 className="card-title fw-bold">Your campaigns</h5>
                 <p className="card-text text-muted">
                   Review your previous campaigns and measure their success.
                 </p>
@@ -93,7 +93,7 @@ const BrandDashboard = () => {
                   to="/brand-campaigns"
                   className="btn btn-success rounded-pill shadow-sm"
                 >
-                  View Projects
+                  View Campaigns
                 </Link>
               </div>
             </div>
@@ -134,10 +134,8 @@ const BrandDashboard = () => {
   
       <ul className="nav col-md-4 justify-content-end">
         <li className="nav-item"><Link to="/brand" class="nav-link px-2 text-body-secondary">Home</Link></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-        <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+        <li className="nav-item"><a href="https://github.com/mrpravin21/brand" target="_blank" class="nav-link px-2 text-body-primary">GitHub</a></li>
+        <li className="nav-item"><a href="https://www.instagram.com/_tinyties/" target="_blank" class="nav-link px-2 text-body-primary">Instagram</a></li>
       </ul>
     </footer>
     </div>

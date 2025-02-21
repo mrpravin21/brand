@@ -119,7 +119,7 @@ const CreatorDetail = () => {
             <li><Link to="/creator" className="nav-link px-2 link-secondary">Home</Link></li>
             <li><Link to="/hiring-creator" className="nav-link px-2">Requests</Link></li>
             <li><Link to="/creator-detail" className="nav-link px-2">Detail</Link></li>
-            <li><Link to="/" className="nav-link px-2">Update</Link></li>
+            <li><Link to="/creator/update" className="nav-link px-2">Update</Link></li>
           </ul>
     
           <div className="col-md-3 text-end">

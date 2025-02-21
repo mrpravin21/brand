@@ -81,7 +81,7 @@ const ViewInflu = () => {
                       <li><Link to="/view-influencer" className="nav-link px-2">Creators</Link></li>
                       <li><Link to="/brand-campaigns" className="nav-link px-2">Campaign</Link></li>
                       <li><Link to="/brand-campaign" className="nav-link px-2">New Campaign</Link></li>
-                      <li><Link to="/" className="nav-link px-2">Update</Link></li>
+                      <li><Link to="/brand/update" className="nav-link px-2">Update</Link></li>
                     </ul>
     
           <div className="col-md-3 text-end">
@@ -115,9 +115,9 @@ const ViewInflu = () => {
               <div className="card-image">
                 <img
                   src={`http://localhost:5001/${creator.analytics_photo1}`}
-                  alt={`${creator.creator_name}`}
+                  alt={blueHand}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/150';
+                    e.target.src = {blueHand};
                   }}
                   className="rounded"
                 />
@@ -158,17 +158,15 @@ const ViewInflu = () => {
     <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
       <p className="col-md-4 mb-0 text-body-secondary">© TinyTies</p>
   
-      <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <Link to="/brand" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <img src={blueHand} width="40" height="40" />
-      </a>
+      </Link>
   
-     <ul className="nav col-md-4 justify-content-end">
-             <li className="nav-item"><Link to="/brand" class="nav-link px-2 text-body-secondary">Home</Link></li>
-             <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-             <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-             <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-             <li className="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-           </ul>
+      <ul className="nav col-md-4 justify-content-end">
+        <li className="nav-item"><Link to="/brand" class="nav-link px-2 text-body-secondary">Home</Link></li>
+        <li className="nav-item"><a href="https://github.com/mrpravin21/brand" target="_blank" class="nav-link px-2 text-body-primary">GitHub</a></li>
+        <li className="nav-item"><a href="https://www.instagram.com/_tinyties/" target="_blank" class="nav-link px-2 text-body-primary">Instagram</a></li>
+      </ul>
     </footer>
     </div>
     </div>
